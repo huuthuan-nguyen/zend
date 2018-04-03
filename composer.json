@@ -17,6 +17,7 @@
         "zendframework/zend-mvc": "^3.0.1",
         "zendframework/zend-db": "*",
         "zendframework/zend-form": "*",
+        "zendframework/zend-i18n": "*",
         "zfcampus/zf-development-mode": "^3.0"
     },
     "autoload": {
