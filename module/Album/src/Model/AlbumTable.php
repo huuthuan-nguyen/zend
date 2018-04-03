@@ -7,7 +7,11 @@ namespace Album\Model;
  * Time: 2:14 PM
  */
 use RuntimeException;
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\Sql\Select;
 use Zend\Db\TableGateway\TableGatewayInterface;
+use Zend\Paginator\Adapter\DbSelect;
+use Zend\Paginator\Paginator;
 
 class AlbumTable
 {
@@ -20,7 +24,29 @@ class AlbumTable
 
     public function fetchAll()
     {
-        return $this->tableGateway->select();
+        return $this->fetchPaginatedResults();
+    }
+
+    private function fetchPaginatedResults() {
+        // create a new select object for the table:
+        $select = new Select($this->tableGateway->getTable());
+
+        // create a new result set based on the Album entity:
+        $resultSetPrototype = new ResultSet();
+        $resultSetPrototype->setArrayObjectPrototype(new Album());
+
+        // create a new pagination adapter object:
+        $paginatorAdapter = new DbSelect(
+            // our configured select object:
+            $select,
+            // the adapter to run it against:
+            $this->tableGateway->getAdapter(),
+            // the result set to hydrate
+            $resultSetPrototype
+        );
+
+        $paginator = new Paginator($paginatorAdapter);
+        return $paginator;
     }
 
     public function getAlbum($id)
