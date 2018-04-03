@@ -18,7 +18,8 @@
         "zendframework/zend-db": "*",
         "zendframework/zend-form": "*",
         "zendframework/zend-i18n": "*",
-        "zfcampus/zf-development-mode": "^3.0"
+        "zfcampus/zf-development-mode": "^3.0",
+        "zendframework/zend-navigation": "^2.8"
     },
     "autoload": {
         "psr-4": {
