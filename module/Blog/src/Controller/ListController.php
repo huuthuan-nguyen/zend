@@ -4,6 +4,7 @@ namespace Blog\Controller;
 use Blog\Model\PostRepositoryInterface;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
+use Zend\View\View;
 
 class ListController extends AbstractActionController {
 
