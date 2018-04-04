@@ -24,4 +24,14 @@ return [
             'Zend\Db\Adapter\Adapter' => 'Zend\Db\Adapter\AdapterServiceFactory'
         ],
     ],
+    'translator' => [
+        'local' => 'en_US',
+        'translation_file_patterns' => [
+            [
+                'type' => 'gettext',
+                'base_dir' => getcwd() . '/data/language',
+                'pattern' => '%s.mo'
+            ]
+        ]
+    ]
 ];

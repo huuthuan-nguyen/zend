@@ -20,12 +20,15 @@
         "zendframework/zend-i18n": "*",
         "zfcampus/zf-development-mode": "^3.0",
         "zendframework/zend-navigation": "^2.8",
-        "zendframework/zend-paginator": "^2.8"
+        "zendframework/zend-paginator": "^2.8",
+        "zendframework/zend-mvc-i18n": "^1.0",
+        "zendframework/zend-debug": "^2.5"
     },
     "autoload": {
         "psr-4": {
             "Application\\": "module/Application/src/",
-            "Album\\": "module/Album/src/"
+            "Album\\": "module/Album/src/",
+            "Blog\\": "module/Blog/src/"
         }
     },
     "autoload-dev": {
