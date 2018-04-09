@@ -22,7 +22,11 @@
         "zendframework/zend-navigation": "^2.8",
         "zendframework/zend-paginator": "^2.8",
         "zendframework/zend-mvc-i18n": "^1.0",
-        "zendframework/zend-debug": "^2.5"
+        "zendframework/zend-debug": "^2.5",
+        "doctrine/doctrine-orm-module": "^2.1",
+        "doctrine/orm": "^2.6",
+        "doctrine/doctrine-module": "^2.1",
+        "doctrine/dbal": "^2.7"
     },
     "autoload": {
         "psr-4": {

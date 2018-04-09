@@ -1,6 +1,7 @@
 <?php
 namespace Blog;
 
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
@@ -42,13 +43,24 @@ return [
                         ]
                     ]
                 ]
+            ],
+            'index' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route' => '/blog/index',
+                    'defaults' => [
+                        'controller' => Controller\IndexController::class,
+                        'action' => 'index'
+                    ]
+                ]
             ]
         ]
     ],
     'controllers' => [
         'factories' => [
             Controller\ListController::class => Factory\ListControllerFactory::class,
-            Controller\WriteController::class => Factory\WriteControllerFactory::class
+            Controller\WriteController::class => Factory\WriteControllerFactory::class,
+            Controller\IndexController::class => Factory\IndexControllerFactory::class
         ]
     ],
     'view_manager' => [
@@ -68,6 +80,22 @@ return [
         ],
         'invokables' => [
             Model\PostCommand::class
+        ]
+    ],
+    'doctrine' => [
+        'driver' => [
+            __NAMESPACE__ . '_driver' => [
+                'class' => AnnotationDriver::class,
+                'cache' => 'array',
+                'paths' => [
+                    __DIR__ . '/../src/Entity'
+                ]
+            ],
+            'orm_default' => [
+                'drivers' => [
+                    __NAMESPACE__ . '\Entity' => __NAMESPACE__ . '_driver'
+                ]
+            ]
         ]
     ]
 ];
