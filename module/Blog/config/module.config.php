@@ -53,6 +53,16 @@ return [
                         'action' => 'index'
                     ]
                 ]
+            ],
+            'add' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route' => '/blog/add',
+                    'defaults' => [
+                        'controller' => Controller\IndexController::class,
+                        'action' => 'add'
+                    ]
+                ]
             ]
         ]
     ],
@@ -76,10 +86,11 @@ return [
         ],
         'factories' => [
             Model\PostRepository::class => InvokableFactory::class,
-            Model\ZendDbSqlRepository::class => Factory\ZendDbSqlRepositoryFactory::class
+            Model\ZendDbSqlRepository::class => Factory\ZendDbSqlRepositoryFactory::class,
+            Service\PostManager::class => Factory\PostManagerFactory::class
         ],
         'invokables' => [
-            Model\PostCommand::class
+            Model\PostCommand::class,
         ]
     ],
     'doctrine' => [

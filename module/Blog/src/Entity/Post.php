@@ -29,7 +29,7 @@ class Post {
     }
 
     /**
-     * @ORM\Column(name="title")
+     * @ORM\Column(type="text", name="title")
      */
     protected $title;
 
@@ -42,7 +42,7 @@ class Post {
     }
 
     /**
-     * @ORM\Column(name="text")
+     * @ORM\Column(type="text", name="text")
      */
     protected $text;
 

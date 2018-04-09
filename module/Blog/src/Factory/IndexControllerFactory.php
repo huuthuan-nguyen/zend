@@ -10,6 +10,9 @@ namespace Blog\Factory;
 
 
 use Blog\Controller\IndexController;
+use Blog\Form\PostForm;
+use Blog\Model\PostCommandInterface;
+use Blog\Service\PostManager;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
 
@@ -18,6 +21,12 @@ class IndexControllerFactory implements  FactoryInterface
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
         $entityManager = $container->get('doctrine.entitymanager.orm_default');
-        return new IndexController($entityManager);
+        $postManager = $container->get(PostManager::class);
+        $formManager = $container->get('FormElementManager');
+        return new IndexController($entityManager,
+            $postManager,
+            $container->get(PostCommandInterface::class),
+            $formManager->get(PostForm::class)
+        );
     }
 }
