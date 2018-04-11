@@ -1,6 +1,8 @@
 <?php
 
 namespace Blog\Service;
+
+use Blog\Entity\Comment;
 use Blog\Entity\Post;
 
 /**
@@ -9,7 +11,6 @@ use Blog\Entity\Post;
  * Date: 4/9/2018
  * Time: 5:03 PM
  */
-
 class PostManager
 {
     /**
@@ -24,7 +25,8 @@ class PostManager
         $this->entityManager = $entityManager;
     }
 
-    public function addNewPost($data) {
+    public function addNewPost($data)
+    {
         $post = new Post();
 
         $post->setTitle($data['title']);
@@ -35,7 +37,8 @@ class PostManager
     }
 
     // This method allows to update data of a single post.
-    public function updatePost($post, $data) {
+    public function updatePost($post, $data)
+    {
         $post->setTitle($data['title']);
         $post->setText($data['text']);
 
@@ -43,7 +46,8 @@ class PostManager
     }
 
     // Removes post and all associated comments.
-    public function removePost($post) {
+    public function removePost($post)
+    {
 
         // Remove associated comments
         $comments = $post->getComments();
@@ -59,5 +63,52 @@ class PostManager
 
         $this->entityManager->remove($post);
         $this->entityManager->flush();
+    }
+
+    // Return count of comments for given post as properly formatted string.
+    public function getCommentCountStr($post)
+    {
+
+        $commentCount = count($post->getComments());
+        if ($commentCount == 0)
+            return 'No comments';
+        elseif ($commentCount == 1)
+            return '1 comment';
+        else
+            return $commentCount . ' comments';
+    }
+
+    // This method adds a new comment to post.
+    public function addCommentToPost($post, $data)
+    {
+        $comment = new Comment();
+        $comment->setPost($post);
+        $comment->setAuthor($data['author']);
+        $comment->setContent($data['comment']);
+        $currentDate = date('Y-m-d H:i:s');
+        $comment->setDateCreated($currentDate);
+
+        // Add the entity to entity manager.
+        $this->entityManager->persist($comment);
+
+        // Apply changes:
+        $this->entityManager->flush();
+    }
+
+    // Converts tags of the given post to comma separated list (string).
+    public function convertTagsToString($post)
+    {
+        $tags = $post->getTags();
+        $tagCount = count($tags);
+        $tagsStr = '';
+        $i = 0;
+        foreach ($tags as $tag) {
+            $i++;
+            $tagsStr .= $tag->getName();
+            if ($i < $tagCount)
+                $tagsStr .= ', ';
+        }
+
+        return $tagsStr;
     }
 }

@@ -93,4 +93,12 @@ class Post {
     public function removeTagAssociation($tag) {
         $this->tags->removeElement($tag);
     }
+
+    public function getDateCreated() {
+        return '';
+    }
+
+    public function getContent() {
+        return $this->getText();
+    }
 }

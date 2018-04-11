@@ -91,6 +91,19 @@ return [
                         'action' => 'delete'
                     ],
                 ]
+            ],
+            'view' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/blog/view[/:id]',
+                    'constraints' => [
+                        'id' => '[1-9]+'
+                    ],
+                    'defaults' => [
+                        'controller' => IndexController::class,
+                        'action' => 'view'
+                    ],
+                ]
             ]
         ]
     ],

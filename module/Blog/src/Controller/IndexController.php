@@ -2,6 +2,7 @@
 
 namespace Blog\Controller;
 
+use Blog\Form\CommentForm;
 use Blog\Entity\Post;
 use Blog\Form\PostForm;
 use Blog\Model\PostCommandInterface;
@@ -143,5 +144,56 @@ class IndexController extends AbstractActionController
 
         // Redirect the user to "index" page
         return $this->redirect()->toRoute('index', ['action' => 'index']);
+    }
+
+    /**
+     * This action displays the "View Post" page allowing to see the post title
+     * and content. The page also contains a form allowing
+     * to add a comment to post.
+     */
+    public function viewAction() {
+        $postId = $this->params()->fromRoute('id', -1);
+
+        $post = $this->entityManager->getRepository(Post::class)
+            ->findOneById($postId);
+
+        if ($post == null) {
+            $this->getResponse()->getStatusCode(404);
+            return;
+        }
+
+        $commentCount = $this->postManager->getCommentCountStr($post);
+
+        // Create the form.
+        $form = new CommentForm();
+
+        // Check whether this post is a POST request.
+        if ($this->getRequest()->isPost()) {
+
+            // Get POST data.
+            $data = $this->params()->fromPost();
+
+            // Fill form with data.
+            $form->setData($data);
+            if ($form->isValid()) {
+
+                // Get validated form data.
+                $data = $form->getData();
+
+                // Use post manager service to add new comment to post.
+                $this->postManager->addCommentToPost($post, $data);
+
+                // Redirect the user again to "view" page.
+                return $this->redirect()->toRoute('view', ['action' => 'view', 'id' => $postId]);
+            }
+        }
+
+        // Render the view template
+        return new ViewModel([
+            'post' => $post,
+            'commentCount' => $commentCount,
+            'form' => $form,
+            'postManager' => $this->postManager
+        ]);
     }
 }
