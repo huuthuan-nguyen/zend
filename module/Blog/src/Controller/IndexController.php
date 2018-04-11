@@ -126,4 +126,22 @@ class IndexController extends AbstractActionController
             'post' => $post
         ]);
     }
+
+    // This "delete" action displays the Delete Post page.
+    public function deleteAction() {
+        $postId = $this->params()->fromRoute('id', -1);
+
+        $post = $this->entityManager->getRepository(Post::class)
+            ->findOneById($postId);
+
+        if ($post == null) {
+            $this->getResponse()->setStatusCode(404);
+            return;
+        }
+
+        $this->postManager->removePost($post);
+
+        // Redirect the user to "index" page
+        return $this->redirect()->toRoute('index', ['action' => 'index']);
+    }
 }

@@ -69,6 +69,10 @@ class Post {
         $this->comments[] = $comment;
     }
 
+    public function getComments() {
+        return $this->comments;
+    }
+
     /**
      * @ORM\ManyToMany(targetEntity="\Blog\Entity\Tag", inversedBy="posts")
      * @ORM\JoinTable(name="post_tag",

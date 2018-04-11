@@ -78,6 +78,19 @@ return [
                         'action' => 'edit'
                     ],
                 ]
+            ],
+            'delete' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/blog/delete[/:id]',
+                    'constraints' => [
+                        'id' => '[1-9]+'
+                    ],
+                    'defaults' => [
+                        'controller' => IndexController::class,
+                        'action' => 'delete'
+                    ],
+                ]
             ]
         ]
     ],
