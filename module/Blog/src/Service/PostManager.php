@@ -33,4 +33,12 @@ class PostManager
         $this->entityManager->persist($post);
         $this->entityManager->flush();
     }
+
+    // This method allows to update data of a single post.
+    public function updatePost($post, $data) {
+        $post->setTitle($data['title']);
+        $post->setText($data['text']);
+
+        $this->entityManager->flush();
+    }
 }

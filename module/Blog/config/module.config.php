@@ -5,11 +5,13 @@ use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
+use Blog\Controller\IndexController;
+use Blog\Factory\IndexControllerFactory;
 
 return [
     'router' => [
         'routes' => [
-            'blog' => [
+            /*'blog' => [
                 'type' => Literal::class,
                 'options' => [
                     'route' => '/blog',
@@ -43,13 +45,13 @@ return [
                         ]
                     ]
                 ]
-            ],
+            ],*/
             'index' => [
                 'type' => Literal::class,
                 'options' => [
                     'route' => '/blog/index',
                     'defaults' => [
-                        'controller' => Controller\IndexController::class,
+                        'controller' => IndexController::class,
                         'action' => 'index'
                     ]
                 ]
@@ -59,9 +61,22 @@ return [
                 'options' => [
                     'route' => '/blog/add',
                     'defaults' => [
-                        'controller' => Controller\IndexController::class,
+                        'controller' => IndexController::class,
                         'action' => 'add'
                     ]
+                ]
+            ],
+            'edit' => [
+                'type' => Segment::class,
+                'options' => [
+                    'route' => '/blog/edit[/:id]',
+                    'constraints' => [
+                        'id' => '[1-9]+'
+                    ],
+                    'defaults' => [
+                        'controller' => IndexController::class,
+                        'action' => 'edit'
+                    ],
                 ]
             ]
         ]
@@ -70,7 +85,7 @@ return [
         'factories' => [
             Controller\ListController::class => Factory\ListControllerFactory::class,
             Controller\WriteController::class => Factory\WriteControllerFactory::class,
-            Controller\IndexController::class => Factory\IndexControllerFactory::class
+            IndexController::class => IndexControllerFactory::class
         ]
     ],
     'view_manager' => [

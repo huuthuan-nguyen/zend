@@ -1,0 +1,50 @@
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url('edit', ['id' => $this->post->getId()]));
+
+$fieldset = $form->get('post');
+
+$id = $fieldset->get('id');
+
+$title = $fieldset->get('title');
+$title->setAttribute('class', 'form-control');
+$title->setAttribute('placeholder', 'Post title');
+
+$text = $fieldset->get('text');
+$text->setAttribute('class', 'form-control');
+$text->setAttribute('placeholder', 'Post content');
+
+$submit = $form->get('submit');
+$submit->setAttribute('class', 'btn btn-primary');
+
+$form->prepare();
+
+?>
+
+<h1>Edit Post</h1>
+
+<p>
+    Please fill out the following form and click the *Save* button.
+</p>
+
+<div class="row">
+    <div class="col-md-6">
+        <?= $this->form()->openTag($form); ?>
+
+        <div class="form-group">
+            <?= $this->formLabel($title) ?>
+            <?= $this->formElement($title) ?>
+            <?= $this->formElementErrors()->render($title, ['class' => 'help-block']) ?>
+        </div>
+
+        <div class="form-group">
+            <?= $this->formLabel($text) ?>
+            <?= $this->formElement($text) ?>
+            <?= $this->formElementErrors()->render($text, ['class' => 'help-block']) ?>
+        </div>
+        <?= $this->formHidden($id); ?>
+        <?= $this->formElement($form->get('submit')); ?>
+
+        <?= $this->form()->closeTag(); ?>
+    </div>
+</div>
