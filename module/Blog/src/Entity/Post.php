@@ -8,7 +8,7 @@ use Blog\Entity\Tag;
 
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Blog\Repository\PostRepository")
  * @ORM\Table(name="posts")
  */
 class Post {
