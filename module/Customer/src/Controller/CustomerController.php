@@ -31,4 +31,10 @@ class CustomerController extends AbstractActionController
             'test' => 'fuck'
         ]);
     }
+
+    public function docAction() {
+        $page = $this->params()->fromRoute('page', 'documentation.phtml');
+        $this->getResponse()->getHeaders()->addHeaderLine('Content-Type: application/json');
+        return $this->getResponse()->setContent(json_encode(['name' => $page]));
+    }
 }

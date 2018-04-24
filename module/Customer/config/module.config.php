@@ -13,12 +13,15 @@ use Customer\Controller\Plugin\AccessPlugin;
 use Customer\Factory\CustomerControllerFactory;
 use Zend\Config\Config;
 use Zend\Mvc\Controller\LazyControllerAbstractFactory;
+use Zend\Router\Http\Regex;
 use Zend\Router\Http\Segment;
 use Customer\Controller\CustomerController;
+use Zend\Router\Http\TreeRouteStack;
 use Zend\ServiceManager\Factory\InvokableFactory;
 
 return [
     'router' => [
+        'router_class' => TreeRouteStack::class,
         'routes' => [
             'customer' => [
                 'type' => Segment::class,
@@ -32,6 +35,17 @@ return [
                         'controller' => CustomerController::class,
                         'action' => 'index'
                     ]
+                ]
+            ],
+            'regex' => [
+                'type' => Regex::class,
+                'options' => [
+                    'regex' => '/doc(?<page>\/[a-zA-Z0-9_\-]+)\.html',
+                    'defaults' => [
+                        'controller' => CustomerController::class,
+                        'action' => 'doc'
+                    ],
+                    'spec' => '/doc/%page%.html'
                 ]
             ]
         ]
