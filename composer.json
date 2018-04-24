@@ -26,13 +26,15 @@
         "doctrine/doctrine-orm-module": "^2.1",
         "doctrine/orm": "^2.6",
         "doctrine/doctrine-module": "^2.1",
-        "doctrine/dbal": "^2.7"
+        "doctrine/dbal": "^2.7",
+        "zendframework/zend-json": "^3.1"
     },
     "autoload": {
         "psr-4": {
             "Application\\": "module/Application/src/",
             "Album\\": "module/Album/src/",
-            "Blog\\": "module/Blog/src/"
+            "Blog\\": "module/Blog/src/",
+            "Customer\\": "module/Customer/src/"
         }
     },
     "autoload-dev": {
