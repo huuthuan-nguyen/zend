@@ -23,7 +23,9 @@ class CustomerController extends AbstractActionController
         return $this->getResponse()->setContent(json_encode(['test' => 'fuck']));*/
         $viewModel = new ViewModel();
         $viewModel->setTemplate('index');
-        return new ViewModel();
+        $url = $this->url()->fromRoute('customer', ['action' => 'index'], ['force_canonical' => true, 'query' => ['page' => 3, 'limit' => 10]]);
+        $viewModel->setVariable('controllerLink', $url);
+        return $viewModel;
     }
 
     public function jsonAction() {
@@ -36,5 +38,20 @@ class CustomerController extends AbstractActionController
         $page = $this->params()->fromRoute('page', 'documentation.phtml');
         $this->getResponse()->getHeaders()->addHeaderLine('Content-Type: application/json');
         return $this->getResponse()->setContent(json_encode(['name' => $page]));
+    }
+
+    public function staticAction() {
+        $pageTemplate = $this->params()->fromRoute('page', null);
+
+        if ($pageTemplate == null) {
+            $this->getResponse()->setStatusCode(404);
+            return $this->getResponse();
+        }
+
+        // Render the page
+        $viewModel = new ViewModel(['page' => $pageTemplate]);
+
+        $viewModel->setTemplate($pageTemplate);
+        return $viewModel;
     }
 }

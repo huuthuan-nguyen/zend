@@ -11,6 +11,7 @@ namespace Customer;
 
 use Customer\Controller\Plugin\AccessPlugin;
 use Customer\Factory\CustomerControllerFactory;
+use Customer\Route\StaticRoute;
 use Zend\Config\Config;
 use Zend\Mvc\Controller\LazyControllerAbstractFactory;
 use Zend\Router\Http\Regex;
@@ -46,6 +47,18 @@ return [
                         'action' => 'doc'
                     ],
                     'spec' => '/doc/%page%.html'
+                ]
+            ],
+            'static' => [
+                'type' => StaticRoute::class,
+                'options' => [
+                    'dir_name' => __DIR__ . '/../view',
+                    'template_prefix' => 'customer/customer/static',
+                    'filename_pattern' => '/[a-z0-9_\-]+/',
+                    'defaults' => [
+                        'controller' => CustomerController::class,
+                        'action' => 'static',
+                    ]
                 ]
             ]
         ]

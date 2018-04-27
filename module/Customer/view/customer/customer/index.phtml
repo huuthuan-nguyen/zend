@@ -1,2 +1,5 @@
 <?= $this->headTitle('Customer Title') ?>
 <h1>Index Page</h1>
+<a href="<?= $this->url('customer', ['action' => 'index']) ?>">This is the relative link</a>
+<a href="<?= $this->url('customer', ['action' => 'index'], ['force_canonical' => true, 'query' => ['page' => 2, 'limit' => 10]]) ?>">This is absolute link</a>
+<a href="<?= $this->controllerLink ?>">This link is from controller</a>
