@@ -14,6 +14,7 @@ use Customer\Factory\CustomerControllerFactory;
 use Customer\Route\StaticRoute;
 use Zend\Config\Config;
 use Zend\Mvc\Controller\LazyControllerAbstractFactory;
+use Zend\Router\Http\Literal;
 use Zend\Router\Http\Regex;
 use Zend\Router\Http\Segment;
 use Customer\Controller\CustomerController;
@@ -58,6 +59,16 @@ return [
                     'defaults' => [
                         'controller' => CustomerController::class,
                         'action' => 'static',
+                    ]
+                ]
+            ],
+            'placeholder' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route' => '/placeholder',
+                    'defaults' => [
+                        'controller' => CustomerController::class,
+                        'action' => 'placeholder'
                     ]
                 ]
             ]

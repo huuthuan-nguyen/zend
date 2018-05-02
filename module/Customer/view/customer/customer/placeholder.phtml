@@ -1,0 +1,21 @@
+<?php $this->placeholder('custom')->captureStart(); ?>
+    <div class="row">
+        <div class="col-md-8">
+            <?= $this->content ?>
+        </div>
+        <div class="col-md-4">
+            <strong>This is right sidebar.</strong>
+        </div>
+    </div>
+    <?= $this->headScript()->appendFile('/js/test.js') ?>
+    <?= $this->inlineScript()->appendScript('console.log("Hello World!");') ?>
+    <?= $this->headLink()->appendStylesheet('/css/style.css') ?>
+<?php $this->placeholder('custom')->captureEnd(); ?>
+<?= $this->partial('layout/layout', ['content' => $this->placeholder('custom')]) ?>
+<?php $style = <<<STL
+strong {
+    color: 'red';
+}
+STL;
+?>
+<?php echo $this->headStyle()->setStyle($style) ?>

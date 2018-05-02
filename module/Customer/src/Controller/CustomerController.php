@@ -54,4 +54,10 @@ class CustomerController extends AbstractActionController
         $viewModel->setTemplate($pageTemplate);
         return $viewModel;
     }
+
+    public function placeholderAction() {
+        $view = new ViewModel();
+        $view->setTerminal(TRUE);
+        return $view;
+    }
 }
