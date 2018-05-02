@@ -12,6 +12,7 @@ namespace Customer;
 use Customer\Controller\Plugin\AccessPlugin;
 use Customer\Factory\CustomerControllerFactory;
 use Customer\Route\StaticRoute;
+use Customer\View\Helper\Hello;
 use Zend\Config\Config;
 use Zend\Mvc\Controller\LazyControllerAbstractFactory;
 use Zend\Router\Http\Literal;
@@ -106,6 +107,14 @@ return [
         ],
         'strategies' => [
             'ViewJsonStrategy'
+        ]
+    ],
+    'view_helpers' => [
+        'invokables' => [
+            Hello::class
+        ],
+        'aliases' => [
+            'hello' => Hello::class
         ]
     ]
 ];
