@@ -1,0 +1,22 @@
+<?php
+$form = $this->form;
+$form->prepare();
+?>
+
+<?= $this->form()->openTag($form) ?>
+
+<?= $this->formLabel($form->get('email')) ?>
+<?= $this->formElement($form->get('email')) ?>
+<?= $this->formElementErrors($form->get('email')) ?>
+
+<?= $this->formLabel($form->get('subject')) ?>
+<?= $this->formElement($form->get('subject')) ?>
+<?= $this->formElementErrors($form->get('subject')) ?>
+
+<?= $this->formLabel($form->get('body')) ?>
+<?= $this->formElement($form->get('body')) ?>
+<?= $this->formElementErrors($form->get('body')) ?>
+
+<?= $this->formElement($form->get('submit')) ?>
+
+<?= $this->form()->closeTag() ?>

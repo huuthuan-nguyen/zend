@@ -2,6 +2,7 @@
 
 namespace Customer\Controller;
 
+use Customer\Form\ContactForm;
 use Zend\Http\Headers;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
@@ -59,5 +60,25 @@ class CustomerController extends AbstractActionController
         $view = new ViewModel();
         $view->setTerminal(TRUE);
         return $view;
+    }
+
+    public function contactAction() {
+
+        $form = new ContactForm();
+
+        if ($this->getRequest()->isPost()) {
+            $data = $this->params()->fromPost();
+            $form->setData($data);
+
+            if ($form->isValid()) {
+                echo '<pre>';
+                print_r($form->getData());
+                die;
+            }
+        }
+
+        return new ViewModel([
+            'form' => $form
+        ]);
     }
 }
