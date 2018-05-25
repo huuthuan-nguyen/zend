@@ -5,6 +5,7 @@ namespace Customer\Controller;
 use Customer\Form\ContactForm;
 use Zend\Http\Headers;
 use Zend\Mvc\Controller\AbstractActionController;
+use Zend\Session\SessionManager;
 use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 
@@ -16,6 +17,16 @@ use Zend\View\Model\ViewModel;
  */
 class CustomerController extends AbstractActionController
 {
+
+    /**
+     * @var SessionManager
+     */
+    protected $sessionManager;
+
+    public function __construct(SessionManager $sessionManager) {
+        $this->sessionManager = $sessionManager;
+    }
+
     public function indexAction() {
 
         //return new ViewModel();
@@ -79,6 +90,12 @@ class CustomerController extends AbstractActionController
 
         return new ViewModel([
             'form' => $form
+        ]);
+    }
+
+    public function sessionAction() {
+        return new JsonModel([
+            'foo' => 'bar'
         ]);
     }
 }

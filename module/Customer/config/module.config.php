@@ -1,7 +1,4 @@
-<?php
-
-namespace Customer;
-
+﻿<?php
 /**
  * Created by PhpStorm.
  * User: patrick.thuan
@@ -10,17 +7,18 @@ namespace Customer;
  */
 
 use Customer\Controller\Plugin\AccessPlugin;
-use Customer\Factory\CustomerControllerFactory;
 use Customer\Route\StaticRoute;
 use Customer\View\Helper\Hello;
 use Zend\Config\Config;
 use Zend\Mvc\Controller\LazyControllerAbstractFactory;
+use Customer\Factory\CustomerControllerFactory;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Regex;
 use Zend\Router\Http\Segment;
 use Customer\Controller\CustomerController;
 use Zend\Router\Http\TreeRouteStack;
 use Zend\ServiceManager\Factory\InvokableFactory;
+use Zend\Session\Storage\SessionArrayStorage;
 
 return [
     'router' => [
@@ -72,12 +70,23 @@ return [
                         'action' => 'placeholder'
                     ]
                 ]
+            ],
+            'session' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route' => '/session',
+                    'defaults' => [
+                        'controller' => CustomerController::class,
+                        'action' => 'session'
+                    ]
+                ]
             ]
         ]
     ],
     'controllers' => [
         'factories' => [
-            CustomerController::class => LazyControllerAbstractFactory::class
+            //CustomerController::class => LazyControllerAbstractFactory::class
+            CustomerController::class => CustomerControllerFactory::class
         ]
     ],
     'service_manager' => [
@@ -116,5 +125,12 @@ return [
         'aliases' => [
             'hello' => Hello::class
         ]
-    ]
+    ],
+    'session_config' => [
+        'cache_expire' => 3600,//1hours
+        'gc_maxlifetime' => 2 * 3600, //1hours
+    ],
+    'session_storage' => [
+        'type' => SessionArrayStorage::class
+    ],
 ];
