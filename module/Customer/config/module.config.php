@@ -10,7 +10,6 @@ namespace Customer;
  */
 
 use Customer\Controller\Plugin\AccessPlugin;
-use Customer\Factory\CustomerControllerFactory;
 use Customer\Route\StaticRoute;
 use Customer\View\Helper\Hello;
 use Zend\Config\Config;
@@ -21,6 +20,11 @@ use Zend\Router\Http\Segment;
 use Customer\Controller\CustomerController;
 use Zend\Router\Http\TreeRouteStack;
 use Zend\ServiceManager\Factory\InvokableFactory;
+use Zend\Session\Service\SessionManagerFactory;
+use Zend\Session\SessionManager;
+use Zend\Session\Storage\SessionArrayStorage;
+use Zend\Session\Validator\RemoteAddr;
+use Zend\Session\Validator\HttpUserAgent;
 
 return [
     'router' => [
@@ -72,6 +76,16 @@ return [
                         'action' => 'placeholder'
                     ]
                 ]
+            ],
+            'session' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route' => '/session',
+                    'defaults' => [
+                        'controller' => CustomerController::class,
+                        'action' => 'session'
+                    ]
+                ]
             ]
         ]
     ],
@@ -82,7 +96,10 @@ return [
     ],
     'service_manager' => [
         'services' => [
-            'test' => new Config(['a' => 'A', 'b' => 'B'])
+            'test' => new Config(['a' => 'A', 'b' => 'B']),
+        ],
+        'factories' => [
+            SessionManager::class => SessionManagerFactory::class
         ]
     ],
     'controller_plugins' => [
@@ -116,5 +133,27 @@ return [
         'aliases' => [
             'hello' => Hello::class
         ]
+    ],
+    // session config
+    'session_config' => [
+        // store cookie for 1 hour
+        'cookie_lifetime' => 60 * 60 * 1,
+        // store session for 30 days
+        'gc_maxlifetime' => 60 * 60 * 24 * 30
+    ],
+    // session manager
+    'session_manager' => [
+        // Session validators (used for security)
+        'validators' => [
+            RemoteAddr::class,
+            HttpUserAgent::class
+        ],
+    ],
+    // session storage configuration
+    'session_storage' => [
+        'type' => SessionArrayStorage::class
+    ],
+    'session_containers' => [
+        'FuckContainerNamespace'
     ]
 ];

@@ -1,7 +1,19 @@
-zf:
-  build: .
-  dockerfile: Dockerfile
-  ports:
-   - "8080:80"
-  volumes:
-   - .:/var/www
+version: '2'
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: zend
+      MYSQL_USER: zend
+      MYSQL_PASSWORD: zend
+    ports:
+    - "3306:3306"
+  web:
+    image: keangoo/php:7.1-apache-zend3
+    depends_on:
+    - db
+    volumes:
+    - ./:/var/www/html/
+    ports:
+    - "80:80"
