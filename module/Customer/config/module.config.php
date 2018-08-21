@@ -1,7 +1,4 @@
-<?php
-
-namespace Customer;
-
+﻿<?php
 /**
  * Created by PhpStorm.
  * User: patrick.thuan
@@ -14,17 +11,14 @@ use Customer\Route\StaticRoute;
 use Customer\View\Helper\Hello;
 use Zend\Config\Config;
 use Zend\Mvc\Controller\LazyControllerAbstractFactory;
+use Customer\Factory\CustomerControllerFactory;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Regex;
 use Zend\Router\Http\Segment;
 use Customer\Controller\CustomerController;
 use Zend\Router\Http\TreeRouteStack;
 use Zend\ServiceManager\Factory\InvokableFactory;
-use Zend\Session\Service\SessionManagerFactory;
-use Zend\Session\SessionManager;
 use Zend\Session\Storage\SessionArrayStorage;
-use Zend\Session\Validator\RemoteAddr;
-use Zend\Session\Validator\HttpUserAgent;
 
 return [
     'router' => [
@@ -91,15 +85,13 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            CustomerController::class => LazyControllerAbstractFactory::class
+            //CustomerController::class => LazyControllerAbstractFactory::class
+            CustomerController::class => CustomerControllerFactory::class
         ]
     ],
     'service_manager' => [
         'services' => [
-            'test' => new Config(['a' => 'A', 'b' => 'B']),
-        ],
-        'factories' => [
-            SessionManager::class => SessionManagerFactory::class
+            'test' => new Config(['a' => 'A', 'b' => 'B'])
         ]
     ],
     'controller_plugins' => [
@@ -134,26 +126,11 @@ return [
             'hello' => Hello::class
         ]
     ],
-    // session config
     'session_config' => [
-        // store cookie for 1 hour
-        'cookie_lifetime' => 60 * 60 * 1,
-        // store session for 30 days
-        'gc_maxlifetime' => 60 * 60 * 24 * 30
+        'cache_expire' => 3600,//1hours
+        'gc_maxlifetime' => 2 * 3600, //1hours
     ],
-    // session manager
-    'session_manager' => [
-        // Session validators (used for security)
-        'validators' => [
-            RemoteAddr::class,
-            HttpUserAgent::class
-        ],
-    ],
-    // session storage configuration
     'session_storage' => [
         'type' => SessionArrayStorage::class
     ],
-    'session_containers' => [
-        'FuckContainerNamespace'
-    ]
 ];

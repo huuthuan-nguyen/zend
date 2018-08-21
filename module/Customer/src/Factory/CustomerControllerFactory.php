@@ -1,6 +1,5 @@
 <?php
 namespace Customer\Factory;
-
 use Customer\Controller\CustomerController;
 use Interop\Container\ContainerInterface;
 use Zend\ServiceManager\Factory\FactoryInterface;
@@ -16,8 +15,6 @@ use Zend\Session\SessionManager;
 class CustomerControllerFactory implements FactoryInterface {
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $sessionManager = $container->get(SessionManager::class);
-        echo '<pre>';var_dump($sessionManager);die;
-        return new CustomerController($sessionManager);
+        return new CustomerController($container->get(SessionManager::class));
     }
 }
