@@ -7,7 +7,7 @@ use Zend\Session\SessionManager;
 
 /**
  * Created by PhpStorm.
- * User: patrick.thuan
+ * User: Thuan Nguyen
  * Date: 4/24/2018
  * Time: 2:23 PM
  */

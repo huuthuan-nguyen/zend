@@ -6,7 +6,7 @@ use Zend\ServiceManager\Factory\FactoryInterface;
 
 /**
  * Created by PhpStorm.
- * User: patrick.thuan
+ * User: Thuan Nguyen
  * Date: 4/9/2018
  * Time: 5:06 PM
  */

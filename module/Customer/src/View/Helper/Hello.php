@@ -4,7 +4,7 @@ use Zend\View\Helper\AbstractHelper;
 
 /**
  * Created by PhpStorm.
- * User: patrick.thuan
+ * User: Thuan Nguyen
  * Date: 5/2/2018
  * Time: 5:16 PM
  */

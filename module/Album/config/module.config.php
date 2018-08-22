@@ -2,7 +2,7 @@
 namespace Album;
 /**
  * Created by PhpStorm.
- * User: patrick.thuan
+ * User: Thuan Nguyen
  * Date: 4/2/2018
  * Time: 11:50 AM
  */

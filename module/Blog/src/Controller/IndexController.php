@@ -14,7 +14,7 @@ use Zend\View\Model\ViewModel;
 
 /**
  * Created by PhpStorm.
- * User: patrick.thuan
+ * User: Thuan Nguyen
  * Date: 4/9/2018
  * Time: 3:49 PM
  */

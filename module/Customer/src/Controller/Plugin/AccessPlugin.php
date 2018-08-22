@@ -4,7 +4,7 @@ use Zend\Mvc\Controller\Plugin\AbstractPlugin;
 
 /**
  * Created by PhpStorm.
- * User: patrick.thuan
+ * User: Thuan Nguyen
  * Date: 4/24/2018
  * Time: 3:29 PM
  */

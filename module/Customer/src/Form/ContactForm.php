@@ -13,7 +13,7 @@ use Zend\Validator\StringLength;
 
 /**
  * Created by PhpStorm.
- * User: patrick.thuan
+ * User: Thuan Nguyen
  * Date: 5/4/2018
  * Time: 3:15 PM
  */

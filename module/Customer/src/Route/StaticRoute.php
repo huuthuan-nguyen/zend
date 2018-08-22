@@ -9,7 +9,7 @@ use Zend\Router\Exception;
 
 /**
  * Created by PhpStorm.
- * User: patrick.thuan
+ * User: Thuan Nguyen
  * Date: 4/27/2018
  * Time: 3:36 PM
  */
