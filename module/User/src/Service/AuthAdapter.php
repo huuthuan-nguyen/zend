@@ -12,7 +12,6 @@ use Zend\Crypt\Password\Bcrypt;
  * Date: 8/22/2018
  * Time: 10:31 AM
  */
-
 class AuthAdapter implements AdapterInterface {
 
     /**
@@ -28,7 +27,7 @@ class AuthAdapter implements AdapterInterface {
     private $password;
 
     /**
-     * Entity Manager
+     * Entity Manager.
      * @var EntityManager
      */
     private $entityManager;
@@ -42,7 +41,7 @@ class AuthAdapter implements AdapterInterface {
     }
 
     /**
-     * Set email
+     * Set user email
      * @param $email
      */
     public function setEmail($email) {
@@ -62,7 +61,7 @@ class AuthAdapter implements AdapterInterface {
         // Check the database if there is a user with such email.
         $user = $this->entityManager->getRepository(User::class)->findOneByEmail($this->email);
 
-        // If there is no such user, return 'Identify Not Found' status.
+        // If there is no such user, return 'Identity Not Found' status.
         if ($user == null)
             return new Result(
                 Result::FAILURE_IDENTITY_NOT_FOUND,
@@ -71,7 +70,7 @@ class AuthAdapter implements AdapterInterface {
             );
 
         // If the user with such email exists, we need to check if it is active or retired.
-        // Do not allow retired user to log in.
+        // Do not allow retired users to log in.
         if ($user->getStatus() == User::STATUS_RETIRED)
             return new Result(
                 Result::FAILURE,
@@ -85,6 +84,8 @@ class AuthAdapter implements AdapterInterface {
         $passwordHash = $user->getPassword();
 
         if ($bcrypt->verify($this->password, $passwordHash))
+            // Great! The password hash matches. Return user identity (email) to be
+            // saved in session for later use.
             return new Result(
                 Result::SUCCESS,
                 $this->email,
