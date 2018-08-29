@@ -10,13 +10,6 @@ use Zend\Uri\Uri;
 use Zend\View\Model\ViewModel;
 
 /**
- * Created by PhpStorm.
- * User: Thuan Nguyen
- * Date: 8/22/2018
- * Time: 10:31 AM
- */
-
-/**
  * This controller is responsible for letting the user to log in and log out.
  *
  * Class AuthController

@@ -5,12 +5,9 @@ use Zend\Authentication\Result;
 use Zend\Session\SessionManager;
 
 /**
- * Created by PhpStorm.
- * User: Thuan Nguyen
- * Date: 8/22/2018
- * Time: 10:31 AM
+ * Class AuthManager
+ * @package User\Service
  */
-
 class AuthManager {
 
     /**
@@ -74,5 +71,37 @@ class AuthManager {
 
         // Remove identity form session.
         $this->authService->clearIdentity();
+    }
+
+    public function filterAccess($controllerName, $actionName) {
+        $mode = isset($this->config['options']['mode']) ? $this->config['options']['mode'] : 'restrictive';
+        if ($mode != 'restrictive' && $mode != 'permissive')
+            throw new \Exception('Invalid filter access mode (expected either restrictive or permissive mode)');
+
+        if (isset($this->config['controllers'][$controllerName])) {
+            $items = $this->config['controllers'][$controllerName];
+            foreach ($items as $item) {
+                $actionList = $item['actions'];
+                $allow = $item['allow'];
+                if (is_array($actionList) && in_array($actionName, $actionList) ||
+                    $actionList == '*') {
+                    if ($allow == '*')
+                        return true; // Anyone is allowed to see the page.
+                    elseif ($allow == '@' && $this->authService->hasIdentity()) {
+                        return true; // Only authenticated user is allowed to see the page.
+                    } else {
+                        return false; // Access denied.
+                    }
+                }
+            }
+        }
+
+        // In restrictive mode, we forbid access for authenticated users to any
+        // action not listed under 'access_filter' key (for security reasons).
+        if ($mode == 'restrictive' && !$this->authService->hasIdentity())
+            return false;
+
+        // Permit access to this page.
+        return true;
     }
 }

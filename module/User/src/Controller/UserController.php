@@ -1,7 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Thuan Nguyen
- * Date: 8/22/2018
- * Time: 10:31 AM
- */
+namespace User\Controller;
+
+use Zend\Mvc\Controller\AbstractActionController;
+
+class UserController extends AbstractActionController {
+
+}
