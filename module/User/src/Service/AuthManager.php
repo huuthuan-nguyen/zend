@@ -73,6 +73,12 @@ class AuthManager {
         $this->authService->clearIdentity();
     }
 
+    /**
+     * @param $controllerName
+     * @param $actionName
+     * @return bool
+     * @throws \Exception
+     */
     public function filterAccess($controllerName, $actionName) {
         $mode = isset($this->config['options']['mode']) ? $this->config['options']['mode'] : 'restrictive';
         if ($mode != 'restrictive' && $mode != 'permissive')

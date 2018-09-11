@@ -60,6 +60,10 @@ class AuthController extends AbstractActionController {
         $this->userManager = $userManager;
     }
 
+    /**
+     * @return ViewModel
+     * @throws \Exception
+     */
     public function loginAction() {
         // Retrieve the redirect URL (if passed). We will redirect the user to this
         // URL after successful login.
@@ -135,6 +139,7 @@ class AuthController extends AbstractActionController {
      * The "logout" action performs logout operation.
      *
      * @return \Zend\Http\Response
+     * @throws \Exception
      */
     public function logoutAction() {
         $this->authManager->logout();

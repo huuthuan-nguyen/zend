@@ -27,7 +27,8 @@ return [
     'Zend\Router',
     'Zend\Validator',
     'Application',
-    'Album',
-    'Blog',
-    'Customer'
+    //'Album',
+    //'Blog',
+    //'Customer',
+    'User'
 ];

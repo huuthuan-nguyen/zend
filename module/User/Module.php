@@ -3,6 +3,7 @@ namespace User;
 
 use User\Controller\AuthController;
 use User\Service\AuthManager;
+use Zend\ModuleManager\Feature\ConfigProviderInterface;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Mvc\MvcEvent;
 
@@ -10,7 +11,7 @@ use Zend\Mvc\MvcEvent;
  * Class Module
  * @package User
  */
-class Module {
+class Module implements ConfigProviderInterface {
 
     /**
      * This method returns the path to module config file.
