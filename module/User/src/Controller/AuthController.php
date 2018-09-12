@@ -1,6 +1,8 @@
 <?php
 namespace User\Controller;
+
 use Doctrine\ORM\EntityManager;
+use User\Form\LoginForm;
 use User\Service\AuthManager;
 use User\Service\UserManager;
 use Zend\Authentication\AuthenticationService;
