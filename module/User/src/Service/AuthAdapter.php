@@ -1,17 +1,12 @@
 <?php
 namespace User\Service;
+
 use Doctrine\ORM\EntityManager;
 use User\Entity\User;
 use Zend\Authentication\Adapter\AdapterInterface;
 use Zend\Authentication\Result;
 use Zend\Crypt\Password\Bcrypt;
 
-/**
- * Created by PhpStorm.
- * User: Thuan Nguyen
- * Date: 8/22/2018
- * Time: 10:31 AM
- */
 class AuthAdapter implements AdapterInterface {
 
     /**

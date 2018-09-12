@@ -1,18 +1,12 @@
 <?php
 namespace User\Service\Factory;
+
 use Interop\Container\ContainerInterface;
 use User\Service\AuthAdapter;
 use Zend\Authentication\AuthenticationService;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\Session\SessionManager;
 use Zend\Session\Storage\SessionStorage;
-
-/**
- * Created by PhpStorm.
- * User: patrick.thuan
- * Date: 8/23/2018
- * Time: 11:03 AM
- */
 
 /**
  * The factory responsible for creating of authentication service.

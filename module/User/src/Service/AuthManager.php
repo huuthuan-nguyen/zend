@@ -21,14 +21,21 @@ class AuthManager {
     protected $authService;
 
     /**
+     * Contents of the 'access_filter' config key.
+     * @var array
+     */
+    protected $config;
+
+    /**
      * AuthManager constructor.
      * @param SessionManager $sessionManager
      * @param AuthenticationService $authService
      */
-    public function __construct(SessionManager $sessionManager, AuthenticationService $authService)
+    public function __construct(SessionManager $sessionManager, AuthenticationService $authService, $config)
     {
         $this->sessionManager = $sessionManager;
         $this->authService = $authService;
+        $this->config = $config;
     }
 
     /**
