@@ -99,7 +99,7 @@ class LoginForm extends Form
 
         // Add input for "email" field.
         $inputFilter->add([
-            'name' => Email::class,
+            'name' => 'email',
             'required' => true,
             'filters' => [
                 ['name' => StringTrim::class]
@@ -117,7 +117,7 @@ class LoginForm extends Form
 
         // Add input for "password" field.
         $inputFilter->add([
-            'name' => Password::class,
+            'name' => 'password',
             'required' => true,
             'filters' => [],
             'validators' => [

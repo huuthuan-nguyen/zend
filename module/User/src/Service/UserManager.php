@@ -5,6 +5,11 @@ use Doctrine\ORM\EntityManager;
 use User\Entity\User;
 use Zend\Crypt\Password\Bcrypt;
 use Zend\Math\Rand;
+use Zend\Mail;
+use Zend\Mail\Transport\Smtp as SmtpTransport;
+use Zend\Mail\Transport\SmtpOptions;
+use Zend\Mime\Message as MimeMessage;
+use Zend\Mime\Part as MimePart;
 
 /**
  * Created by PhpStorm.
@@ -16,9 +21,28 @@ use Zend\Math\Rand;
 class UserManager {
 
     /**
+     * Doctrine entity manager.
      * @var EntityManager
      */
     protected $entityManager;
+
+    /**
+     * PHP template renderer.
+     * @var
+     */
+    private $viewRenderer;
+
+    /**
+     * Application Config
+     * @var
+     */
+    private $config;
+
+    public function __construct($entityManager, $viewRenderer, $config) {
+        $this->entityManager = $entityManager;
+        $this->viewRenderer = $viewRenderer;
+        $this->config = $config;
+    }
 
     /**
      * Add a new user.
@@ -55,6 +79,62 @@ class UserManager {
     }
 
     /**
+     * This method updates data of an existing user.
+     * @param $user
+     * @param $data
+     */
+    public function updateUser($user, $data) {
+        // Do not allow to change user email if another user with such email already exists.
+        if ($user->getEmail() != $data['email'] && $this->checkUserExists($data['email'])) {
+            throw new \Exception("Another user with email address " . $data['email'] . ' already exists');
+        }
+
+        $user->setEmail($data['email']);
+        $user->setFullName($data['full_name']);
+        $user->setStatus($data['status']);
+
+        // Apply changes to database.
+        $this->entityManager->flush();
+
+        return true;
+    }
+
+    /**
+     * This method checks if at least one user present, and if not, creates
+     * 'Admin' user with email 'admin@example.com' and password 'Secur1ty'.
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function createAdminUserIfNotExists() {
+        $user = $this->entityManager->getRepository(User::class)->findOneBy([]);
+        if ($user == null) {
+            $user = new User();
+            $user->setEmail('admin@example.com');
+            $user->setFullName('Admin');
+            $bcrypt = new Bcrypt();
+            $passwordHash = $bcrypt->create('Scur1ty');
+            $user->setPassword($passwordHash);
+            $user->setStatus(User::STATUS_ACTIVE);
+            $user->setDateCreated(date('Y-m-d H:i:s'));
+
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+        }
+    }
+
+    /**
+     * Checks whether an active user with given email address already exists in the database.
+     * @param $email
+     * @return bool
+     */
+    public function checkUserExists($email) {
+        $user = $this->entityManager->getRepository(User::class)
+            ->findOneByEmail($email);
+
+        return $user !== null;
+    }
+
+    /**
      * Check if the given password is correct.
      *
      * @param User $user
@@ -72,26 +152,13 @@ class UserManager {
     }
 
     /**
-     * This method checks if at least one user presents, and if not, creates
-     * 'Admin' user with email 'admin@example.com' and password '12345'
+     * Generates a password reset token for the user. This token is then store in database and
+     * sent to the user's E-mail address. When the user clicks the link in E-mail message, he is
+     * direacted to the Set Password page.
+     * @param User $user
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function createAdminUserIfNotExists() {
-        $user = $this->entityManager->getRepository(User::class)->findOneBy([]);
-        if ($user==null) {
-            $user = new User();
-            $user->setEmail('admin@example.com');
-            $user->setFullName('Admin');
-            $bcrypt = new Bcrypt();
-            $passwordHash = $bcrypt->create('12345');
-            $user->setPassword($passwordHash);
-            $user->setStatus(User::STATUS_ACTIVE);
-            $user->setDateCreated(date('Y-m-d H:i:s'));
-
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
-        }
-    }
-
     public function generatePasswordResetToken(User $user) {
         if ($user->getStatus() != User::STATUS_ACTIVE)
             throw new \Exception('Can not generate password reset token for inactive user '. $user->getEmail());
@@ -211,6 +278,32 @@ class UserManager {
         $user->setPasswordResetToken(null);
         $user->setPasswordResetTokenCreationDate(null);
 
+        $this->entityManager->flush();
+
+        return true;
+    }
+
+    public function changePassword($user, $data) {
+        $oldPassword  = $data['old_password'];
+
+        // Check that old password is correct
+        if (!$this->validatePassword($user, $oldPassword)) {
+            return false;
+        }
+
+        $newPassword = $data['new_password'];
+
+        // Check password length
+        if (strlen($newPassword) < 6 || strlen($newPassword) > 64) {
+            return false;
+        }
+
+        // set new password for user.
+        $bcrypt = new Bcrypt();
+        $passwordHash = $bcrypt->create($newPassword);
+        $user->setPassword($passwordHash);
+
+        // Apply changes
         $this->entityManager->flush();
 
         return true;

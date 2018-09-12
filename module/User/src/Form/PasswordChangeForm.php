@@ -5,6 +5,8 @@ use Zend\Form\Element\Csrf;
 use Zend\Form\Element\Password;
 use Zend\Form\Element\Submit;
 use Zend\Form\Form;
+use Zend\Validator\Identical;
+use Zend\Validator\StringLength;
 
 /**
  * Class PasswordChangeForm is used when changing user's password (to collect user's old password
@@ -89,5 +91,56 @@ class PasswordChangeForm extends Form {
      */
     protected function addInputFilter() {
         // Create main input filter.
+        $inputFilter = $this->getInputFilter();
+
+        if ($this->scenario == 'change') {
+
+            // Add input for "old_password" filed.
+            $inputFilter->add([
+                'name' => 'old_password',
+                'required' => true,
+                'filters' => [],
+                'validators' => [
+                    [
+                        'name' => StringLength::class,
+                        'options' => [
+                            'min' => 6,
+                            'max' => 64
+                        ]
+                    ]
+                ]
+            ]);
+        }
+
+        // Add input for "new_password" field
+        $inputFilter->add([
+            'name' => 'new_password',
+            'required' => true,
+            'filters' => [],
+            'validators' => [
+                [
+                    'name' => StringLength::class,
+                    'options' => [
+                        'min' => 6,
+                        'max' => 64
+                    ]
+                ]
+            ]
+        ]);
+
+        // Add input for "confirm_new_password" field.
+        $inputFilter->add([
+            'name' => 'confirm_new_password',
+            'required' => true,
+            'filters' => [],
+            'validators' => [
+                [
+                    'name' => Identical::class,
+                    'options' => [
+                        'token' => 'new_password'
+                    ]
+                ]
+            ]
+        ]);
     }
 }
