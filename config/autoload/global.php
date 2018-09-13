@@ -14,12 +14,13 @@
 use Zend\Session\Validator\RemoteAddr;
 use Zend\Session\Validator\HttpUserAgent;
 use \Doctrine\DBAL\Driver\PDOMySql\Driver;
+use Zend\Session\Storage\SessionArrayStorage;
 
 return [
     'db' => [
         'driver' => 'Pdo',
         'dsn' => 'mysql:dbname=zend;host=localhost',
-        'driver_options' => array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"),
+        'driver_options' => array(\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"),
         'username' => 'zend',
         'password' => 'zend'
     ],

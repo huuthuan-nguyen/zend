@@ -1,12 +1,7 @@
 <?php
 namespace User\Entity;
 
-/**
- * Created by PhpStorm.
- * User: Thuan Nguyen
- * Date: 8/22/2018
- * Time: 10:30 AM
- */
+use Doctrine\ORM\Mapping as ORM;
 
 /**
  * This class represents a registered user.

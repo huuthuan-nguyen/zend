@@ -4,7 +4,6 @@ namespace User\Service\Factory;
 use Interop\Container\ContainerInterface;
 use User\Service\AuthManager;
 use Zend\Authentication\AuthenticationService;
-use Zend\Config\Config;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use Zend\Session\SessionManager;
 

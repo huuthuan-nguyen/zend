@@ -20,13 +20,10 @@ use User\View\Helper\Factory\CurrentUserFactory;
 use Zend\Authentication\AuthenticationService;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
+use Zend\Session\Storage\SessionArrayStorage;
+use Zend\Session\Validator\HttpUserAgent;
+use Zend\Session\Validator\RemoteAddr;
 
-/**
- * Created by PhpStorm.
- * User: Thuan Nguyen
- * Date: 8/22/2018
- * Time: 10:26 AM
- */
 return [
     'service_manager' => [
         'factories' => [
@@ -111,6 +108,22 @@ return [
             UserController::class => UserControllerFactory::class
         ]
     ],
+    'session_config' => [
+        'cookie_lifetime'     => 60*60*1, // Session cookie will expire in 1 hour.
+        'gc_maxlifetime'      => 60*60*24*30, // How long to store session data on server (for 1 month).
+    ],
+    // Session manager configuration.
+    'session_manager' => [
+        // Session validators (used for security).
+        'validators' => [
+            RemoteAddr::class,
+            HttpUserAgent::class,
+        ]
+    ],
+    // Session storage configuration.
+    'session_storage' => [
+        'type' => SessionArrayStorage::class
+    ],
     'view_manager' => [
         'template_path_stack' => [
             __DIR__ . '/../view',
@@ -118,7 +131,7 @@ return [
     ],
     'view_helpers' => [
         'factories' => [
-            CurrentUser::class => CurrentUserFactory::class
+            CurrentUser::class => CurrentUserFactory::class,
         ],
         'alias' => [
             'currentUser' => CurrentUser::class
