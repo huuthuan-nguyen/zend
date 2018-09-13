@@ -30,6 +30,7 @@ class AuthManager {
      * AuthManager constructor.
      * @param SessionManager $sessionManager
      * @param AuthenticationService $authService
+     * @param array $config
      */
     public function __construct(SessionManager $sessionManager, AuthenticationService $authService, $config)
     {

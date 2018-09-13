@@ -1,15 +1,22 @@
 <?php
 namespace User;
 
-use Application\Controller\IndexController;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use User\Controller\AuthController;
+use User\Controller\Factory\AuthControllerFactory;
+use User\Controller\Factory\UserControllerFactory;
+use User\Controller\Plugin\CurrentUserPlugin;
+use User\Controller\Plugin\Factory\CurrentUserPluginFactory;
 use User\Controller\UserController;
 use User\Service\AuthAdapter;
 use User\Service\AuthManager;
+use User\Service\Factory\AuthAdapterFactory;
 use User\Service\Factory\AuthenticationServiceFactory;
 use User\Service\Factory\AuthManagerFactory;
+use User\Service\Factory\UserManagerFactory;
 use User\Service\UserManager;
+use User\View\Helper\CurrentUser;
+use User\View\Helper\Factory\CurrentUserFactory;
 use Zend\Authentication\AuthenticationService;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
