@@ -32,12 +32,6 @@ class AuthController extends AbstractActionController {
     private $authManager;
 
     /**
-     * Auth service.
-     * @var AuthenticationService
-     */
-    private $authService;
-
-    /**
      * User manager.
      * @var UserManager
      */
@@ -47,18 +41,15 @@ class AuthController extends AbstractActionController {
      * AuthController constructor.
      * @param $entityManager
      * @param $authManager
-     * @param $authService
      * @param $userManager
      */
     public function __construct(
         $entityManager,
         $authManager,
-        $authService,
         $userManager
     ) {
         $this->entityManager = $entityManager;
         $this->authManager = $authManager;
-        $this->authService = $authService;
         $this->userManager = $userManager;
     }
 
