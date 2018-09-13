@@ -13,11 +13,12 @@
 
 use Zend\Session\Validator\RemoteAddr;
 use Zend\Session\Validator\HttpUserAgent;
+use \Doctrine\DBAL\Driver\PDOMySql\Driver;
 
 return [
     'db' => [
-        'driver'         => 'Pdo',
-        'dsn'            => 'mysql:dbname=zend;host=localhost',
+        'driver' => 'Pdo',
+        'dsn' => 'mysql:dbname=zend;host=localhost',
         'driver_options' => array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"),
         'username' => 'zend',
         'password' => 'zend'
@@ -35,6 +36,35 @@ return [
                 'base_dir' => getcwd() . '/data/language',
                 'pattern' => '%s.mo'
             ]
+        ]
+    ],
+    'doctrine' => [
+        // migrations configuration
+        'migrations_configuration' => [
+            'orm_default' => [
+                'name' => 'Doctrine Database Migrations',
+                'namespace' => 'Migration',
+                'table' => 'migration',
+                'column_name' => 'version',
+                'column_length' => 255,
+                'executed_at_column_name' => 'executed_at',
+                'directory' => __DIR__ . '/../../module',
+                'all_or_nothing' => true,
+            ],
+        ],
+        'connection' => [
+            // default connection name
+            'orm_default' => [
+                'driverClass' => Driver::class,
+                'params' => [
+                    'host' => 'db',
+                    'port' => '3306',
+                    'user' => 'zend',
+                    'password' => 'zend',
+                    'dbname' => 'zend',
+                    'charset' => 'utf8',
+                ],
+            ],
         ]
     ],
     // session config
