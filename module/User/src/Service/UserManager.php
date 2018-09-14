@@ -112,7 +112,7 @@ class UserManager {
             $user->setEmail('admin@example.com');
             $user->setFullName('Admin');
             $bcrypt = new Bcrypt();
-            $passwordHash = $bcrypt->create('Scur1ty');
+            $passwordHash = $bcrypt->create('Secur1ty');
             $user->setPassword($passwordHash);
             $user->setStatus(User::STATUS_ACTIVE);
             $user->setDateCreated(date('Y-m-d H:i:s'));
