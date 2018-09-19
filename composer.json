@@ -32,7 +32,8 @@
     "zendframework/zend-crypt": "^3.3",
     "zendframework/zend-authentication": "^2.6",
     "zendframework/zend-mail": "^2.10",
-    "doctrine/migrations": "^1.8"
+    "doctrine/migrations": "^1.8",
+    "zendframework/zend-permissions-rbac": "^3.0"
   },
   "autoload": {
     "psr-4": {

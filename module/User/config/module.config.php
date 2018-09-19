@@ -43,14 +43,16 @@ return [
             // action for users not logged in. In permissive mode, if an action is not listed
             // under the 'access_filter' key, access to it is permitted to anyone (even for
             // users not logged in. Restrictive mode is more secure and recommended.
-            'mode' => 'restrictive'
+            'mode' => 'permissive'
         ],
         'controllers' => [
             UserController::class => [
                 // Allow anyone to visit "resetPassword", "message" and "setPassword" actions
                 ['actions' => ['resetPassword', 'message', 'setPassword'], 'allow' => '*'],
                 // Allow authenticated users to visit "index", "add", "edit", "view", "changePassword" action
-                ['actions' => ['index', 'add', 'edit', 'view', 'changePassword'], 'allow' => '@']
+                ['actions' => ['index', 'add', 'edit', 'view', 'changePassword'], 'allow' => '@'],
+                // Allow authenticated users to visit "test1", "test2", "test3" action
+                // ['actions' => ['test1', 'test2', 'test3'] , 'allow' => '@']
             ],
         ]
     ],

@@ -19,7 +19,7 @@ use Zend\Session\Storage\SessionArrayStorage;
 return [
     'db' => [
         'driver' => 'Pdo',
-        'dsn' => 'mysql:dbname=zend;host=localhost',
+        'dsn' => 'mysql:dbname=zend;host=db',
         'driver_options' => array(\PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"),
         'username' => 'zend',
         'password' => 'zend'
@@ -65,7 +65,7 @@ return [
                     'dbname' => 'zend',
                     'charset' => 'utf8',
                 ],
-            ],
+            ]
         ]
     ],
     // session config

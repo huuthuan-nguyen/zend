@@ -347,4 +347,16 @@ class UserController extends AbstractActionController
         }
         return new ViewModel(['form' => $form]);
     }
+
+    public function test1Action() {
+        return new ViewModel();
+    }
+
+    public function test2Action() {
+        return new ViewModel();
+    }
+
+    public function test3Action() {
+        return new ViewModel();
+    }
 }
