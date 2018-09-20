@@ -10,6 +10,11 @@ use Zend\Session\SessionManager;
  */
 class AuthManager {
 
+    // Constants returned by the access filter.
+    const ACCESS_GRANTED = 1; // Access to the page is granted.
+    const AUTH_REQUIRED = 2; // Authentication is required to see the page.
+    const ACCESS_DENIED = 3; // Access to the page is denied.
+
     /**
      * @var SessionManager
      */

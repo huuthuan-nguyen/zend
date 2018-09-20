@@ -56,6 +56,15 @@ class User {
     protected $passwordResetTokenCreationDate;
 
     /**
+     * @ORM\ManyToMany(targetEntity="User\Entity\Role")
+     * @ORM\JoinTable(name="user_role",
+     *     joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *     inverseJoinColumns={@ORM\JoinColumn(name="role_id", referencedColumnName="id")}
+     *     )
+     */
+    private $roles;
+
+    /**
      * Return User ID
      * @return integer
      */
@@ -204,5 +213,40 @@ class User {
      */
     public function setPasswordResetTokenCreationDate($date) {
         $this->passwordResetTokenCreationDate = $date;
+    }
+
+    /**
+     * Return the array of roles assigned to this user.
+     * @return mixed
+     */
+    public function getRoles() {
+        return $this->roles;
+    }
+
+    /**
+     * Returns the string of assigned role names.
+     * @return string
+     */
+    public function getRolesAsString() {
+        $roleList = '';
+
+        $count = count($this->roles);
+        $i = 0;
+        foreach ($this->roles as $role) {
+            $roleList .= $role->getName();
+
+            if ($i < $count-1)
+                $roleList .= ', ';
+            $i++;
+        }
+        return $roleList;
+    }
+
+    /**
+     * Assign a role to user.
+     * @param $role
+     */
+    public function addRole($role) {
+        $this->roles->add($role);
     }
 }

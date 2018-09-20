@@ -5,7 +5,6 @@ use Doctrine\ORM\EntityManager;
 use User\Form\LoginForm;
 use User\Service\AuthManager;
 use User\Service\UserManager;
-use Zend\Authentication\AuthenticationService;
 use Zend\Authentication\Result;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\Uri\Uri;
@@ -138,5 +137,14 @@ class AuthController extends AbstractActionController {
         $this->authManager->logout();
 
         return $this->redirect()->toRoute('login');
+    }
+
+    /**
+     * Displays the "Not Authorized" page.
+     * @return ViewModel
+     */
+    public function notAuthorizedAction() {
+        $this->getResponse()->setStatusCode(403);
+        return new ViewModel();
     }
 }

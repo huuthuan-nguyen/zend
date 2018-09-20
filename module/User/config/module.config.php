@@ -1,6 +1,7 @@
 <?php
 namespace User;
 
+use Doctrine\Common\Cache\FilesystemCache;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use User\Controller\AuthController;
 use User\Controller\Factory\AuthControllerFactory;
@@ -14,10 +15,12 @@ use User\Service\Factory\AuthAdapterFactory;
 use User\Service\Factory\AuthenticationServiceFactory;
 use User\Service\Factory\AuthManagerFactory;
 use User\Service\Factory\UserManagerFactory;
+use User\Service\RbacManager;
 use User\Service\UserManager;
 use User\View\Helper\CurrentUser;
 use User\View\Helper\Factory\CurrentUserFactory;
 use Zend\Authentication\AuthenticationService;
+use Zend\Cache\Storage\Adapter\Filesystem;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Zend\Session\Storage\SessionArrayStorage;
@@ -101,6 +104,16 @@ return [
                         'action' => 'index'
                     ]
                 ]
+            ],
+            'not-authorized' => [
+                'type' => Literal::class,
+                'options' => [
+                    'route' => '/not-authorized',
+                    'defaults' => [
+                        'controller' => AuthController::class,
+                        'action' => 'notAuthorized'
+                    ]
+                ]
             ]
         ]
     ],
@@ -162,5 +175,25 @@ return [
                 ]
             ]
         ]
+    ],
+    'cache' => [
+        FilesystemCache::class => [
+            'adapter' => [
+                'name' => Filesystem::class,
+                'options' => [
+                    // store cache data in this directory.
+                    'cache_dir' => './data/cache',
+                    // store cached data for 1 hour.
+                    'ttl' => 60*60*1
+                ]
+            ],
+            'plugin' => [
+                'name' => 'serializer',
+                'options' => []
+            ]
+        ]
+    ],
+    'rbac_manager' => [
+        'assertions' => [RbacManager::class]
     ]
 ];

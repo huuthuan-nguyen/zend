@@ -33,7 +33,9 @@
     "zendframework/zend-authentication": "^2.6",
     "zendframework/zend-mail": "^2.10",
     "doctrine/migrations": "^1.8",
-    "zendframework/zend-permissions-rbac": "^3.0"
+    "zendframework/zend-permissions-rbac": "^3.0",
+    "zendframework/zend-cache": "^2.8",
+    "zendframework/zend-serializer": "^2.9"
   },
   "autoload": {
     "psr-4": {
