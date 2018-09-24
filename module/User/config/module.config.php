@@ -6,15 +6,22 @@ use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use User\Controller\AuthController;
 use User\Controller\Factory\AuthControllerFactory;
 use User\Controller\Factory\UserControllerFactory;
+use User\Controller\PermissionController;
+use User\Controller\Plugin\AccessPlugin;
 use User\Controller\Plugin\CurrentUserPlugin;
+use User\Controller\Plugin\Factory\AccessPluginFactory;
 use User\Controller\Plugin\Factory\CurrentUserPluginFactory;
+use User\Controller\RoleController;
 use User\Controller\UserController;
 use User\Service\AuthAdapter;
 use User\Service\AuthManager;
 use User\Service\Factory\AuthAdapterFactory;
 use User\Service\Factory\AuthenticationServiceFactory;
 use User\Service\Factory\AuthManagerFactory;
+use User\Service\Factory\RbacAssertionManagerFactory;
+use User\Service\Factory\RbacManagerFactory;
 use User\Service\Factory\UserManagerFactory;
+use User\Service\RbacAssertionManager;
 use User\Service\RbacManager;
 use User\Service\UserManager;
 use User\View\Helper\CurrentUser;
@@ -33,7 +40,9 @@ return [
             AuthenticationService::class => AuthenticationServiceFactory::class,
             AuthManager::class => AuthManagerFactory::class,
             AuthAdapter::class => AuthAdapterFactory::class,
-            UserManager::class => UserManagerFactory::class
+            UserManager::class => UserManagerFactory::class,
+            RbacManager::class => RbacManagerFactory::class,
+            RbacAssertionManager::class => RbacAssertionManagerFactory::class
         ]
     ],
     // The 'access_filter' key is used by module User to restrict or permit
@@ -53,10 +62,18 @@ return [
                 // Allow anyone to visit "resetPassword", "message" and "setPassword" actions
                 ['actions' => ['resetPassword', 'message', 'setPassword'], 'allow' => '*'],
                 // Allow authenticated users to visit "index", "add", "edit", "view", "changePassword" action
-                ['actions' => ['index', 'add', 'edit', 'view', 'changePassword'], 'allow' => '@'],
-                // Allow authenticated users to visit "test1", "test2", "test3" action
-                // ['actions' => ['test1', 'test2', 'test3'] , 'allow' => '@']
+                // Give access to "index", "add", "edit", "view, "changePassword" actions
+                // to users having the "user.manager" permission.
+                ['actions' => ['index', 'add', 'edit', 'view', 'changePassword'], 'allow' => '+user.manage']
             ],
+            RoleController::class => [
+                // Allow access to authenticated users having the "role.manage" permission.
+                ['actions' => '*', 'allow' => '+role.manage']
+            ],
+            PermissionController::class => [
+                // Allow access to authenticated users having "permission.manage" permission.
+                ['action' => '*', 'allow' => '+permission.manage']
+            ]
         ]
     ],
     'router' => [
@@ -154,10 +171,12 @@ return [
     ],
     'controller_plugins' => [
         'factories' => [
-            CurrentUserPlugin::class => CurrentUserPluginFactory::class
+            CurrentUserPlugin::class => CurrentUserPluginFactory::class,
+            AccessPlugin::class => AccessPluginFactory::class
         ],
-        'alias' => [
-            'currentUser' => CurrentUserPlugin::class
+        'aliases' => [
+            'currentUser' => CurrentUserPlugin::class,
+            'access' => AccessPlugin::class
         ]
     ],
     'doctrine' => [
@@ -176,7 +195,7 @@ return [
             ]
         ]
     ],
-    'cache' => [
+    'caches' => [
         FilesystemCache::class => [
             'adapter' => [
                 'name' => Filesystem::class,
@@ -194,6 +213,8 @@ return [
         ]
     ],
     'rbac_manager' => [
-        'assertions' => [RbacManager::class]
+        'assertions' => [
+            RbacAssertionManager::class
+        ]
     ]
 ];

@@ -2,9 +2,9 @@
 namespace User\Service\Factory;
 
 use Doctrine\Common\Cache\FilesystemCache;
+use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
 use Zend\Authentication\AuthenticationService;
-use Zend\Config\Config;
 use Zend\ServiceManager\Factory\FactoryInterface;
 use User\Service\RbacManager;
 
@@ -23,17 +23,18 @@ class RbacManagerFactory implements FactoryInterface {
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
-        $entityManager = $container->get('doctine.entitymanager.orm_default');
+        $entityManager = $container->get('doctrine.entitymanager.orm_default');
         $authService = $container->get(AuthenticationService::class);
         $cache = $container->get(FilesystemCache::class);
 
         $assertionManagers = [];
-        $config = $container->get(Config::class);
+        $config = $container->get('config');
         if (isset($config['rbac_manager']['assertions'])) {
-            foreach ($config['rbac_manager']['asserttions'] as $serviceName) {
+            foreach ($config['rbac_manager']['assertions'] as $serviceName) {
                 $assertionManagers[$serviceName] = $container->get($serviceName);
             }
         }
+
 
         return new RbacManager($entityManager, $authService, $cache, $assertionManagers);
     }

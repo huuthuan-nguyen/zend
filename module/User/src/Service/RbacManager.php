@@ -154,23 +154,4 @@ class RbacManager
         }
         return false;
     }
-
-
-
-    /**
-     * This method is used for dynamic assertions.
-     * @param Rbac $rbac
-     * @param $permission
-     * @param $params
-     * @return bool
-     */
-    public function assert(Rbac $rbac, $permission, $params) {
-        $currentUser = $this->entityManager->getRepository(User::class)
-            ->findOneByEmail($this->authService->getIdentity());
-
-        if ($permission == 'profile.own.view' && $params['user']->getId() == $currentUser->getId())
-            return true;
-
-        return false;
-    }
 }

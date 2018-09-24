@@ -16,7 +16,7 @@ class UserManagerFactory implements FactoryInterface {
     {
         $entityManager = $container->get('doctrine.entitymanager.orm_default');
         $viewRenderer = $container->get('ViewRenderer');
-        $config = $container->get('Config');
+        $config = $container->get('config');
 
         return new UserManager($entityManager, $viewRenderer, $config);
     }

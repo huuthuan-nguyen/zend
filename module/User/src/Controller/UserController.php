@@ -349,6 +349,10 @@ class UserController extends AbstractActionController
     }
 
     public function test1Action() {
+        if ($this->access('profile.own.view', [
+            'user' => $this->entityManager->getRepository(User::class)->findOneById(1)]))
+            return $this->redirect()->toRoute('not-authorized');
+
         return new ViewModel();
     }
 
