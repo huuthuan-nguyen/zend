@@ -14,12 +14,13 @@ use User\Service\RbacManager;
  * @package User\Service\Factory
  */
 class RbacManagerFactory implements FactoryInterface {
+
     /**
      * This method creates the RbacManager service and returns its instance.
      * @param ContainerInterface $container
      * @param string $requestedName
      * @param array|null $options
-     * @return object|void
+     * @return object|RbacManager
      */
     public function __invoke(ContainerInterface $container, $requestedName, array $options = null)
     {
