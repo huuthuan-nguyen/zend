@@ -206,9 +206,11 @@ return [
                     'ttl' => 60*60*1
                 ]
             ],
-            'plugin' => [
-                'name' => 'serializer',
-                'options' => []
+            'plugins' => [
+                [
+                    'name' => 'serializer',
+                    'options' => []
+                ]
             ]
         ]
     ],

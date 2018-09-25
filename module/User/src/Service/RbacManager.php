@@ -84,6 +84,7 @@ class RbacManager
 
             $roles = $this->entityManager->getRepository(Role::class)
                 ->findBy([], ['id' => 'ASC']);
+
             foreach ($roles as $role) {
                 $roleName = $role->getName();
 
