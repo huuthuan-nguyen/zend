@@ -9,6 +9,17 @@ services:
       MYSQL_PASSWORD: zend
     ports:
     - "3306:3306"
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    depends_on:
+    - db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: zend
+      MONGO_INITDB_ROOT_PASSWORD: zend
+      MONGO_INITDB_DATABASE: zend
+    ports:
+    - "27017:27017"
   web:
     image: keangoo/php:7.1-apache-zend3
     depends_on:
